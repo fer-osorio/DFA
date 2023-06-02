@@ -9,6 +9,9 @@ file is contained the information for the construction of the automaton.
 
 - To exit the program press *ctrl+C*.
 
+- When running the program, please be careful; a lot of work needs to be done
+  to handle exceptions.
+
 #Compile the program#
 In console just type "make" and the executable will be created. If you want
 to modify something about the compilation process you can modify the 
