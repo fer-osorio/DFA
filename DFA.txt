@@ -1,0 +1,6 @@
+Number of states: 2
+Number of finals: 1
+Finals: 0
+Transition table: 0  1
+                  0  1
+Initial: 0
