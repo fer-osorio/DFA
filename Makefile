@@ -12,11 +12,6 @@ DFA: Makefile main.cpp
 clean:
 	rm -f DFA
 
-# Builder will call this to install the application before running.
-install:
-	echo "Installing is not supported"
-
-# Builder uses this target to run your application.
 run:
-	./DFA
+	./DFA DFA.txt
 
