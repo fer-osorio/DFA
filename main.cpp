@@ -36,8 +36,41 @@ public:
     }
 
     DFA(const char* fileName) {
-        int i, j;
-        ifstream input(fileName);
+        int i, j, k = 0;
+
+        char *fileContent;
+        fileContent = getText(fileName);
+
+        // -Debugging purposes.
+        std::cout << fileContent << '\n';
+
+        numOfStates = getNextInt(fileContent, k);
+        numOfFinals = getNextInt(fileContent, k);
+
+        finals = new int[numOfFinals];
+        for(i = 0; i < numOfFinals; i++) {
+            //cout << '\n' << k << '\n';
+            finals[i] = getNextInt(fileContent, k);
+            //cout << '\n' << finals[i] << '\n';
+            //cout << '\n' << k << '\n';
+        }
+
+        transitionTable = new int*[numOfStates];
+        for(i = 0; i < numOfStates; i++) {
+            transitionTable[i] = new int[alphabetLen];
+            for(j = 0; j < alphabetLen; j++) {
+                cout << '\n' << k << '\n';
+                transitionTable[i][j] = getNextInt(fileContent, k);
+                cout << '\n' << transitionTable[i][j] << '\n';
+                cout << '\n' << k << '\n';
+            }
+        }
+        initial = getNextInt(fileContent, k);
+        cout << '\n' << initial << '\n';
+
+        delete[] fileContent;
+
+        /*ifstream input(fileName);
         if(!input.is_open()) {
             throw "\nCould not open file...\n";
         }
@@ -55,7 +88,7 @@ public:
                 transitionTable[i][j] = getNextInt(&input);
         }
         initial = getNextInt(&input);
-        input.close();
+        input.close();*/
     }
 
     bool operator()(const char* w) {
@@ -100,17 +133,29 @@ public:
     }
 
 private:
-    /*char* getText(char* fileName){
-        char tmp;
-        int len = 0;
+    char* getText(const char* fileName){
+        char tmp, *text;
+        int len = -1, i = 0;
+
         ifstream input(fileName);
+
         if(!input.is_open()) {
             throw "\nCould not open file...\n";
         }
-
-
+        // -Length of the content of the file.
+        while(input.get() != EOF) len++;
+        text = new char[len + 1];
+        // -Returning to the beginning of file.
+        input.clear();
+        input.seekg(0, input.beg);
+        // -Storing file content in 'text'.
+        while((tmp = input.get()) != EOF) {
+            text[i++] = tmp;
+        }
+        text[i] = 0; // -End of string.
         input.close();
-    }*/
+        return text;
+    }
 
     int getNextInt(ifstream *f) {
         char tmp;
@@ -127,6 +172,22 @@ private:
         }
         return num;
     }
+
+    int getNextInt(char* str, int& position) {
+        char tmp;
+        int num = 0;
+        tmp = str[position++];
+        while(tmp <= 47 || tmp >= 58) {
+            if(tmp == 0) return num;
+            tmp = str[position++];
+        }
+        while(tmp > 47 && tmp < 58) {
+            num *= 10;
+            num += (tmp - 48);
+            tmp = str[position++];
+        }
+        return num;
+    }
 };
 
 int main (int argc, char* argv[]) {
@@ -139,7 +200,7 @@ int main (int argc, char* argv[]) {
     if(aut("10111")) cout << "1";
     else cout << "0";*/
 
-    DFA aut;
+    //DFA aut;
     char w[50];
 
     switch (argc) {
@@ -147,16 +208,17 @@ int main (int argc, char* argv[]) {
             cout << "\nToo few arguments...\n";
             return 1;
         case 2:
-            try {
+            /*try {
                 aut = DFA(argv[1]);
             } catch(char* msg) {
                 cout << msg;
-            }
+            }*/
             break;
         default:
             cout << "\nToo many arguments...\n";
             return 1;
     }
+    DFA aut(argv[1]);
 
     aut.print();
 
