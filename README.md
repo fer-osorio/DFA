@@ -1,7 +1,8 @@
 #Deterministic Finite Automaton#
-- This program simulates a deterministic finite automaton. A .txt file is asked
-as an argument for the execution of the program; it is supposed that in this
-file is contained the information for the construction of the automaton.
+- This program simulates a deterministic finite automaton over the {0,1}
+alphabet. A .txt file is asked as an argument for the execution of the program;
+it is supposed that in this file is contained the information for the 
+construction of the automaton.
 
 - While running, the program will ask for strings to validate, displaying
 *"Accepted string"* is the introduced string belongs to the language, and
